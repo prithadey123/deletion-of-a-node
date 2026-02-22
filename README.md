@@ -11,7 +11,6 @@ This program:
 3. Displays the updated linked list.
 
 ---
-
  Source Code
 
 ```c
