@@ -1,0 +1,72 @@
+ #include <stdio.h>
+#include <stdlib.h>
+
+// Define structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to delete a node by value
+struct Node* deleteNode(struct Node* head, int key) {
+    struct Node *temp = head, *prev = NULL;
+
+    // If head node itself holds the key
+    if (temp != NULL && temp->data == key) {
+        head = temp->next;   // Change head
+        free(temp);          // Free old head
+        return head;
+    }
+
+    // Search for the key
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    // If key not present
+    if (temp == NULL) {
+        printf("Value not found in list.\n");
+        return head;
+    }
+
+    // Unlink the node
+    prev->next = temp->next;
+    free(temp);
+
+    return head;
+}
+
+// Function to display linked list
+void traverse(struct Node* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    // Creating sample list: 10 -> 20 -> 30
+    struct Node* n1 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n2 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n3 = (struct Node*)malloc(sizeof(struct Node));
+
+    n1->data = 10; n1->next = n2;
+    n2->data = 20; n2->next = n3;
+    n3->data = 30; n3->next = NULL;
+
+    head = n1;
+
+    printf("Original List:\n");
+    traverse(head);
+
+    // Delete node with value 20
+    head = deleteNode(head, 20);
+
+    printf("\nList after deletion:\n");
+    traverse(head);
+
+    return 0;
+}
